@@ -1,0 +1,10 @@
+button{
+	margin: 5px;
+	padding: 1px 10px ;
+	font-size: 18px;
+}
+
+.dejaClickee{
+	background-color: gray;
+	color: #cecccc;
+}
