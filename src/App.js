@@ -4,18 +4,15 @@ import AlphabetLettre from './AlphabetLettre';
 import GuessCount from './GuessCount'
 import dictionnaire from './dictionnaire.json';
 
-const ALPHABET = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+const ALPHABET = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 
 class App extends Component {
 
   state = {
-    
     phrase : this.generatePhrase(),
     lettreDejaClickee: [],
     guesses: 0,
     gagne : false,
-   
-  
  }
 
  generatePhrase(){
@@ -24,7 +21,11 @@ class App extends Component {
         return Math.floor(Math.random()*(max-min+1)+min);
     }
 
-  return dictionnaire[randomIntFromInterval(0, dictionnaire.length)];
+  let phrase = dictionnaire[randomIntFromInterval(0, dictionnaire.length)];
+  let phraseEnMajuscule = phrase.toUpperCase();
+  let phraseSansAccent;
+     phraseSansAccent = this.removeAccents(phraseEnMajuscule);
+  return phraseSansAccent;
  }
 
 
@@ -56,6 +57,15 @@ class App extends Component {
   
  }
 
+redemarer(){
+  const {} = this.state
+  const newGuesses =0;
+  const newtab = [] ;
+  const newGagne = false;
+  const newPhrase = this.generatePhrase();
+
+  this.setState({ lettreDejaClickee : newtab, guesses : newGuesses, gagne : newGagne, phrase : newPhrase });
+}
 
  render() {
    const {gagne, guesses,  phrase, lettreDejaClickee} = this.state
@@ -70,7 +80,10 @@ class App extends Component {
 
         ))
     ):(
+    <div>
       <h1>Gagné !! </h1>
+      <button className={`redemarer`} onClick={() => this.redemarer()}> Commencer une nouvelle partie</button>
+    </div>
     )
    return (
   <div className="App">
@@ -91,12 +104,27 @@ class App extends Component {
  }
 
  computeDisplay(phrase, usedLetters) {
-  let newPhraseCachee = phrase.replace(/\w/g,
+  let newPhraseCachee;
+  newPhraseCachee = phrase.replace(/\w/g,
     (letter) => (usedLetters.includes(letter) ? letter : ' __ ')
-  )
-  return newPhraseCachee;
+  );
+    return newPhraseCachee;
  }
 
+  removeAccents(str){
+        let accents    = ['À','Á','Â','Ã','Ä','Å','à','á','â','ã','ä','å','Ò','Ó','Ô','Õ','Õ','Ö','Ø','ò','ó','ô','õ','ö','ø','È','É','Ê','Ë','è','é','ê','ë','ð','Ç','ç','Ð','Ì','Í','Î','Ï','ì','í','î','ï','Ù','Ú','Û','Ü','ù','ú','û','ü','Ñ','ñ','Š','š','Ÿ','ÿ','ý','Ž','ž'];
+        let accentsOut = ["A","A","A","A","A","A","a","a","a","a","a","a","O","O","O","O","O","O","O","o","o","o","o","o","o","E","E","E","E","e","e","e","e","e","C","c","D","I","I","I","I","i","i","i","i","U","U","U","U","u","u","u","u","N","n","S","s","Y","y","y","Z","z"];
+        str = str.split('');
+        let strLen = str.length;
+        let i, x;
+        for (i = 0; i < strLen; i++) {
+            x = accents.indexOf(str[i]);
+            if (x != -1) {
+                str[i] = accentsOut[x];
+            }
+        }
+        return str.join('');
+    }
 
 }
 

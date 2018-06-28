@@ -18,7 +18,7 @@ AlphabetLettre.propTypes={
 		'dejaClickee',
 		'jamaisClickee',
 	]).isRequired,
-	index : PropTypes.number.isRequired,
+	index : PropTypes.number,
 	onClick: PropTypes.func.isRequired,
 }
 
