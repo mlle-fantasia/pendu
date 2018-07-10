@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import AlphabetLettre from './AlphabetLettre';
-import GuessCount from './GuessCount'
+import GuessCount from './GuessCount';
+import Canvas from './Canvas'
+import { Stage, Layer,  Text } from 'react-konva';
 import dictionnaire from './dictionnaire.json';
 
 const ALPHABET = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
@@ -13,6 +15,8 @@ class App extends Component {
     lettreDejaClickee: [],
     guesses: 0,
     gagne : false,
+    essaisManques: 11,
+      perdu : false,
  }
 
  generatePhrase(){
@@ -32,20 +36,25 @@ class App extends Component {
 
  //recuperer le this
  handleLettreClick = (e, kettre) => {
-  const {phrase, guesses, lettreDejaClickee} = this.state
-  const newGuesses = guesses + 1
+  const {phrase, guesses, lettreDejaClickee, essaisManques} = this.state
+  const newGuesses = guesses + 1;
   let newtab=lettreDejaClickee;
   newtab.push(kettre);
   const aGagne = this.computeDisplay(phrase, newtab) === phrase;
   this.setState({ lettreDejaClickee: newtab, guesses: newGuesses, gagne: aGagne });
-  
-  if(aGagne) {
-    console.log('ouaaaaais');
-    return;
-  }
-    console.log('non');
-  
- }
+
+     let tabPhrase = phrase.split('');
+     let indexTrouve = tabPhrase.indexOf(kettre);
+     console.log(tabPhrase);
+     if(indexTrouve > -1) {
+     }else{
+         const newEssaiRestant = essaisManques -1;
+         this.setState({ essaisManques: newEssaiRestant });
+     }
+     this.perdu();
+
+
+ };
 
 
  getEtat(lettre) {
@@ -62,44 +71,71 @@ redemarer(){
   const newGuesses =0;
   const newtab = [] ;
   const newGagne = false;
+  const newPerdu = false;
   const newPhrase = this.generatePhrase();
+  const newEssaisManques = 11;
 
-  this.setState({ lettreDejaClickee : newtab, guesses : newGuesses, gagne : newGagne, phrase : newPhrase });
+  this.setState({ lettreDejaClickee : newtab, guesses : newGuesses, gagne : newGagne, phrase : newPhrase, perdu : newPerdu, essaisManques : newEssaisManques});
+}
+
+perdu(){
+    const {essaisManques} = this.state
+    if (essaisManques<2){
+        this.setState({ perdu: true });
+    }
+}
+
+gagneOuPerdu(){
+    const {gagne,perdu} = this.state
+
+    if(gagne === true ){
+        return  <div>
+            <h1>Gagné !! </h1>
+            <button className={`redemarer`} onClick={() => this.redemarer()}> Commencer une nouvelle partie</button>
+        </div>
+    }else if(perdu === true){
+        return  <div>
+            <h1>Tu as perdu, retente ta chance ! </h1>
+            <button className={`redemarer`} onClick={() => this.redemarer()}> Commencer une nouvelle partie</button>
+        </div>
+    }
+    else{
+        return  ALPHABET.map((lettre, index) => (
+            <AlphabetLettre
+                gagne={false}
+                onClick={(e) => this.handleLettreClick(e, lettre)}
+                etat = {this.getEtat(lettre)}
+                key={index}
+                lettre={lettre}/>
+        ))
+    }
 }
 
  render() {
-   const {gagne, guesses,  phrase, lettreDejaClickee} = this.state
-   const aGagne = !gagne ? (
-      ALPHABET.map((lettre, index, etat) => (
-          <AlphabetLettre 
-          gagne={false}
-          onClick={(e) => this.handleLettreClick(e, lettre)}
-          etat = {this.getEtat(lettre)}
-          key={index}
-          lettre={lettre}/>
-
-        ))
-    ):(
-    <div>
-      <h1>Gagné !! </h1>
-      <button className={`redemarer`} onClick={() => this.redemarer()}> Commencer une nouvelle partie</button>
-    </div>
-    )
+   const { guesses,  phrase, lettreDejaClickee, essaisManques} = this.state
+     
    return (
-  <div className="App">
-   <header className="App-header">
-    <h1 className="App-title">Welcome to Pendu</h1>
-   </header>
-   <div className="phrase" >
-    {this.computeDisplay(phrase, lettreDejaClickee)}
-   </div>
-   <GuessCount guesses={guesses} />
-
-       <div className="alphabet">
-        {aGagne}
+      <div className="App">
+       <header className="App-header">
+            <h1 className="App-title">Welcome to Pendu</h1>
+       </header>
+       <div className="phrase" >
+            {this.computeDisplay(phrase, lettreDejaClickee)}
        </div>
 
-  </div>
+       <GuessCount guesses={guesses} />
+
+       <div className="alphabet">
+           {this.gagneOuPerdu()}
+        </div>
+
+       <div className="dessin">
+           <Stage width={window.innerWidth} height={window.innerHeight}>
+                <Canvas essaiRestant = {essaisManques}/>
+           </Stage>
+       </div>
+
+      </div>
    );
  }
 
