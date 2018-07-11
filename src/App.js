@@ -113,7 +113,7 @@ gagneOuPerdu(){
 
  render() {
    const { guesses,  phrase, lettreDejaClickee, essaisManques} = this.state
-     
+
    return (
       <div className="App">
        <header className="App-header">
@@ -123,7 +123,7 @@ gagneOuPerdu(){
             {this.computeDisplay(phrase, lettreDejaClickee)}
        </div>
 
-       <GuessCount guesses={guesses} />
+       {/*<GuessCount guesses={guesses} />*/}
 
        <div className="alphabet">
            {this.gagneOuPerdu()}
