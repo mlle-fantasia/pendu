@@ -1,74 +1,68 @@
 import React, {Component} from 'react';
-import {render} from 'react-dom';
 import {Line, Layer, Text, Circle} from 'react-konva';
-import Konva from 'konva';
 import './Canvas.css';
 
 
 class Canvas extends Component {
 
-    state = {
-        dessinencours: null,
-
-    }
 
     render() {
-        const {dessinencours} = this.state
+
 
         let ligne1 = <Line
-            points={[0, 180, 180, 180]}
+            points={[0, 250, 200, 250]}
             stroke={'gray'}
             strokeWidth={4}
         />;
 
         let ligne2 = <Line
-            points={[10, 180, 10, 20]}
+            points={[10, 250, 10, 70]}
             stroke={'gray'}
             strokeWidth={4}
         />;
         let ligne3 = <Line
-            points={[10, 50, 40, 20]}
+            points={[10, 100, 40, 70]}
             stroke={'gray'}
             strokeWidth={4}
         />;
         let ligne4 = <Line
-            points={[10, 20, 100, 20]}
+            points={[10,70, 100, 70]}
             stroke={'gray'}
             strokeWidth={4}
         />;
         let ligne5 = <Line
-            points={[100, 20, 100, 50]}
-            stroke={'gray'}
-            strokeWidth={4}
-        />;
-        let ligne6 = <Line
             points={[100, 70, 100, 100]}
             stroke={'gray'}
             strokeWidth={4}
         />;
+        let ligne6 = <Line
+            points={[100, 120, 100, 170]}
+            stroke={'gray'}
+            strokeWidth={4}
+        />;
         let ligne7 = <Line
-            points={[100, 75, 80, 90]}
+            points={[100, 125, 80, 90]}
             stroke={'gray'}
             strokeWidth={4}
         />;
         let ligne8 = <Line
-            points={[100, 75, 120, 90]}
+            points={[100, 125, 120, 90]}
             stroke={'gray'}
             strokeWidth={4}
         />;
         let ligne9 = <Line
-            points={[100, 100, 90, 130]}
+            points={[100, 170, 90, 130]}
             stroke={'gray'}
             strokeWidth={4}
         />;
         let ligne10 = <Line
-            points={[100, 100, 110, 130]}
+            points={[100, 170, 110, 130]}
             stroke={'gray'}
             strokeWidth={4}
         />;
         let tete = <Circle
             x={100}
-            y={60}
+            y={110}
             radius={10}
             stroke={'gray'}
             strokeWidth={4}
@@ -101,7 +95,12 @@ class Canvas extends Component {
 
         return (
             <Layer>
-                <Text text="nombre d'essais restant avant d'être pendu : "/>
+                <Text text="nombre d'essais restant avant d'être pendu : " nb={nbessaiRestant}
+                      fontSize = {18}
+                      margin = {10}
+
+
+                />
                 {dessin.map((element) => (
                     element
                 ))}
