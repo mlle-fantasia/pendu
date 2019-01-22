@@ -6,11 +6,11 @@ const AlphabetLettre = ({ lettre, etat, index, onClick }) => (
    <button className={`lettre ${etat}`} onClick={() => onClick(index)}>
    		{lettre}
    </button>
-);
+)
 
 AlphabetLettre.defaultProps = {
   etat: 'jamaisClickee'
-};
+}
 
 AlphabetLettre.propTypes={
 	lettre: PropTypes.string.isRequired,
@@ -20,6 +20,6 @@ AlphabetLettre.propTypes={
 	]).isRequired,
 	index : PropTypes.number,
 	onClick: PropTypes.func.isRequired,
-};
+}
 
-export default AlphabetLettre;
+export default AlphabetLettre

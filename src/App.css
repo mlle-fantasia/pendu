@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .App-header {
   background-color: #222;
   height: 80px;
@@ -11,9 +12,6 @@
 
 .App-title {
   font-size: 1.5em;
-}
-.niveauChoisi{
-  padding: 10px;
 }
 .App .alphabet{
     padding: 60px;
