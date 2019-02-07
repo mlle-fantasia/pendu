@@ -60,7 +60,7 @@ class App extends Component {
         let i, x;
         for (i = 0; i < strLen; i++) {
             x = accents.indexOf(str[i]);
-            if (x != -1) {
+            if (x !== -1) {
                 str[i] = accentsOut[x];
             }
         }
@@ -97,7 +97,6 @@ class App extends Component {
  }
 
 redemarer(){
-  const {} = this.state;
   const newGuesses =0;
   const newtab = [] ;
   const newGagne = false;

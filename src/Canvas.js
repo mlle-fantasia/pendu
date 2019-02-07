@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {render} from 'react-dom';
 import {Line, Layer, Text, Circle} from 'react-konva';
-import Konva from 'konva';
 import './Canvas.css';
 
 
@@ -10,10 +8,9 @@ class Canvas extends Component {
     state = {
         dessinencours: null,
 
-    }
+    };
 
     render() {
-        const {dessinencours} = this.state
 
         let ligne1 = <Line
             points={[0, 180, 180, 180]}
