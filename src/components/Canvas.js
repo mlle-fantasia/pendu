@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Line, Layer, Text, Circle} from 'react-konva';
-import './Canvas.css';
+import '../css/Canvas.css';
 
 
 class Canvas extends Component {

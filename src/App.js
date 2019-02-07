@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
-import AlphabetLettre from './AlphabetLettre';
-import Canvas from './Canvas'
+import './css/App.css';
+import AlphabetLettre from './components/AlphabetLettre';
+import Canvas from './components/Canvas'
 import { Stage } from 'react-konva';
 import axios from "axios";
+import Redemmarer from "./components/Redemmarer";
 
 
 const API = 'http://localhost:5001/';
@@ -13,14 +14,20 @@ const ALPHABET = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P
 
 class App extends Component {
 
-  state = {
-    mot: '',
-    lettreDejaClickee: [],
-    guesses: 0,
-    gagne : false,
-    essaisManques: 11,
-    perdu : false,
- };
+    constructor(props) {
+        super(props);
+        this.redemarer = this.redemarer.bind(this);
+    }
+
+    state = {
+        mot: '',
+        lettreDejaClickee: [],
+        guesses: 0,
+        gagne : false,
+        essaisManques: 11,
+        perdu : false,
+    };
+
 
  async componentDidMount() {
      this.getDictionnaire();
@@ -120,12 +127,12 @@ gagneOuPerdu(){
     if(gagne === true ){
         return  <div>
             <h1>Gagné !! </h1>
-            <button className={`redemarer`} onClick={() => this.redemarer()}> Commencer une nouvelle partie</button>
+            <Redemmarer redemmarer={this.redemarer}/>
         </div>
     }else if(perdu === true){
         return  <div>
             <h1>Tu as perdu, retente ta chance ! </h1>
-            <button className={`redemarer`} onClick={() => this.redemarer()}> Commencer une nouvelle partie</button>
+            <Redemmarer redemmarer={this.redemarer}/>
         </div>
     }
     else{

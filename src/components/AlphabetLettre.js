@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './AlphabetLettre.css'
+import '../css/AlphabetLettre.css'
 
 const AlphabetLettre = ({ lettre, etat, index, onClick }) => (
    <button className={`lettre ${etat}`} onClick={() => onClick(index)}>
