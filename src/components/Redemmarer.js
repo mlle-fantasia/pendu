@@ -8,14 +8,14 @@ class Redemmarer extends Component {
         super(props);
     }
 
-    redemmarer(){
+    redemarrer(){
         console.log('coucou');
-        this.props.redemmarer();
+        this.props.redemarrer();
     }
 
     render() {
         return(
-            <button className={`redemarer`} onClick={() => this.redemmarer()}> Commencer une nouvelle partie</button>
+            <button className={`redemarer`} onClick={() => this.redemarrer()}> Commencer une nouvelle partie</button>
         );
     }
 

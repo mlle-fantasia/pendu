@@ -1,25 +1,31 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, {Component} from 'react'
 import '../css/AlphabetLettre.css'
 
-const AlphabetLettre = ({ lettre, etat, index, onClick }) => (
-   <button className={`lettre ${etat}`} onClick={() => onClick(index)}>
-   		{lettre}
-   </button>
-);
+class AlphabetLettre extends Component{
+    constructor(props) {
+        super(props);
+    }
 
-AlphabetLettre.defaultProps = {
-  etat: 'jamaisClickee'
-};
+    getEtat(lettre) {
+    	if(this.props.lettreDejaClickee){
+            let indexTrouve = this.props.lettreDejaClickee.indexOf(lettre);
+            return indexTrouve > -1 ? 'dejaClickee' : 'jamaisClickee';
+		}
+      	return 'jamaisClickee';
+    }
 
-AlphabetLettre.propTypes={
-	lettre: PropTypes.string.isRequired,
-	etat: PropTypes.oneOf([
-		'dejaClickee',
-		'jamaisClickee',
-	]).isRequired,
-	index : PropTypes.number,
-	onClick: PropTypes.func.isRequired,
-};
+    onClick(index){
+    	this.props.onClick(index);
+	}
+
+    render(){
+    	return(
+            <button className={`lettre ${this.getEtat(this.props.lettre)}`} onClick={() => this.onClick(this.props.index)}>
+                {this.props.lettre}
+            </button>
+		);
+	}
+}
+
 
 export default AlphabetLettre
