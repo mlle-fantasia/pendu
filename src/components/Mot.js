@@ -4,6 +4,8 @@ class Mot extends Component{
 
     constructor(props) {
         super(props);
+        console.log('coucou');
+        // this.computeDisplay(this.state.mot, this.props.tabLettre);
     }
 
     state = {
@@ -18,6 +20,8 @@ class Mot extends Component{
         this.setState({mot: motformate});
         this.computeDisplay(motformate, this.props.tabLettre);
     }
+
+
 
     formatMot(motRecu){
         console.log(motRecu);
@@ -49,7 +53,7 @@ class Mot extends Component{
             (letter) => (usedLetters.includes(letter) ? letter : ' __ ')
         );
         this.setState({phraseCachee:newPhraseCachee});
-        this.props.setMot(newPhraseCachee);
+        this.props.setPhraseCachee(newPhraseCachee);
     }
 
     render() {

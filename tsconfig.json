@@ -1,0 +1,15 @@
+{
+  "files":[
+    "src/index.js"
+  ],
+  "compilerOptions":{
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "strict": true,
+    "allowJs": true
+
+  },
+  "exclure":["node_modules"]
+}

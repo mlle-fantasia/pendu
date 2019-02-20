@@ -6,45 +6,47 @@ import { Stage } from 'react-konva';
 import axios from "axios";
 import Redemmarer from "./components/Redemmarer";
 import Mot from "./components/Mot";
-
+import { test, redemarrer, getDictionnaire } from "./services/ServicePendu";
 
 const API = 'http://localhost:5001/';
 
 const ALPHABET = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-
+// const service = ServicePendu;
 
 class App extends Component {
+
+
 
     constructor(props) {
         super(props);
         this.redemarrer = this.redemarrer.bind(this);
-        this.setMot = this.setMot.bind(this);
+        this.setPhraseCachee = this.setPhraseCachee.bind(this);
     }
 
     state = {
         mot: '',
         lettreDejaClickee: ['-'],
-        guesses: 0,
+        // guesses: 0,
         gagne : false,
         essaisManques: 11,
         perdu : false,
         phraseCachee : '',
     };
 
-
  async componentDidMount() {
-     this.getDictionnaire();
+     this.state.mot = await getDictionnaire();
+     console.log(this.state.mot);
   };
 
- async getDictionnaire(){
-     const {mot, lettreDejaClickee} = this.state;
-     const response = await axios.get(API);
-     console.log(response.data.mot);
-     let Mot = response.data.mot;
-     this.setState({mot: Mot});
-     // this.formatMot(Mot);
-     // this.computeDisplay(mot, lettreDejaClickee);
- }
+ // async getDictionnaire(){
+ //     const {mot, lettreDejaClickee} = this.state;
+ //     const response = await axios.get(API);
+ //     console.log(response.data.mot);
+ //     let Mot = response.data.mot;
+ //     this.setState({mot: Mot});
+ //     // this.formatMot(Mot);
+ //     // this.computeDisplay(mot, lettreDejaClickee);
+ // }
 
  //  formatMot(motRecu){
  //
@@ -77,35 +79,29 @@ class App extends Component {
  //        return str.join('');
  //    }
 
-    ModifierState(motRecu, guessesRecu, lettreDejaClickeeRecu, essaisManquesRecu, gagneRecu, perduRecu, phraseCacheeRecu){
-    const state = { ...this.state};
-    const newMot = motRecu;
-    const newGuesses = guessesRecu;
+    setFromLettre(lettreDejaClickeeRecu, essaisManquesRecu, gagneRecu){
+        const state = { ...this.state};
     const newtab = lettreDejaClickeeRecu ;
-    const newGagne = gagneRecu;
-    const newPerdu = perduRecu;
-    const newPhraseCachee = phraseCacheeRecu;
     const newEssaisManques = essaisManquesRecu;
-
-    this.setState({mot:newMot, lettreDejaClickee:newtab, guesses:newGuesses, gagne:newGagne, phrase:newPhraseCachee, perdu:newPerdu, essaisManques:newEssaisManques, phraseCachee:newPhraseCachee});
+    this.setState({ lettreDejaClickee:newtab, essaisManques:newEssaisManques, gagne:gagneRecu });
 }
 
-    setMot(motRecu){
+    setPhraseCachee(phraseRecu){
      const state = { ...this.state};
-     this.setState({ mot:motRecu });
+     this.setState({ phraseCachee:phraseRecu });
     }
 
     //recuperer le this
-     handleLettreClick = (e, kettre) => {
+     handleLettreClick = (e, lettre) => {
           const {mot, guesses, lettreDejaClickee, essaisManques} = this.state;
-          const newGuesses = guesses + 1;
+          // const newGuesses = guesses + 1;
           let newtab=lettreDejaClickee;
-          newtab.push(kettre);
-          const aGagne = this.computeDisplay(mot, newtab) === mot;
-          this.setState({ lettreDejaClickee: newtab, guesses: newGuesses, gagne: aGagne });
-
+          newtab.push(lettre);
+          const aGagne = this.state.phraseCachee === mot;
+          this.setState({ lettreDejaClickee: newtab, gagne: aGagne });
+            console.log(lettreDejaClickee);
           let tabPhrase = mot.split('');
-          let indexTrouve = tabPhrase.indexOf(kettre);
+          let indexTrouve = tabPhrase.indexOf(lettre);
           if(indexTrouve > -1) {
           }else{
              const newEssaiRestant = essaisManques -1;
@@ -157,25 +153,32 @@ gagneOuPerdu(){
     else{
         return  ALPHABET.map((lettre, index) => (
             <AlphabetLettre
-                gagne={false}
-                onClick={(e) => this.handleLettreClick(e, lettre)}
+                // service = {service}
+                onClick = {this.handleLettreClick.bind(this)}
+                // modifierState = {this.setFromLettre}
                 key={index}
                 tabLettreCliquee = {this.state.lettreDejaClickee}
-                lettre={lettre}/>
+                lettre={lettre}
+                // phraseCachee = {this.state.phraseCachee}
+                // mot= {this.state.mot}
+                // essaisManques= {this.state.essaisManques}
+                // gagne = {this.state.gagne}
+            />
         ))
     }
 }
 
     rendreOuPas(){
         const {essaisManques} = this.state;
-        if(this.state.mot){
+        // if(this.state.mot){
+            console.log(this.state.lettreDejaClickee);
             return(
                 <div className="App">
                     <header className="App-header">
                         <h1 className="App-title">Welcome to Pendu</h1>
                     </header>
 
-                    <Mot mot={this.state.mot} tabLettre = {this.state.lettreDejaClickee} setMot={this.setMot} />
+                    <Mot mot={this.state.mot} tabLettre = {this.state.lettreDejaClickee} setPhraseCachee={this.setPhraseCachee} />
 
                     <div className="alphabet">
                         {this.gagneOuPerdu()}
@@ -188,7 +191,7 @@ gagneOuPerdu(){
                     </div>
                 </div>
             )
-        }
+        // }
     }
 
      render() {

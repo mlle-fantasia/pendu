@@ -1,19 +1,34 @@
 import axios from "axios";
+import {Component} from "react";
+
+const API = 'http://localhost:5001/';
 
 
+export function test() {
+    console.log('test service : le service fonctionne');
+};
 
-class ServicePendu {
+export function redemarrer(){
+    console.log('test service : methode redemarrer ok');
+}
 
-    private API = 'http://localhost:5001/';
-    public mot : string;
+export async function getDictionnaire(){
+    const response = await axios.get(API);
+    console.log(response.data.mot);
+    let Mot = response.data.mot;
+    return Mot;
+}
 
-    test() {
-        console.log('test service : le service fonctionne');
-    };
 
-    redemarrer(){
+class ServicePendu extends Component{
 
+    API = 'http://localhost:5001/';
+    mot = '';
+
+    constructor(props) {
+        super(props);
     }
+    
 
     computeDisplay(phrase, usedLetters){
         let newPhraseCachee;
