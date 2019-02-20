@@ -1,16 +1,10 @@
 import {Component} from "react";
 
-class services {
-
-
+class services extends Component {
 
     test() {
         console.log('test service : le service fonctionne');
     };
 
-    redemarrer(){
-
-    }
-
 }
-
+export default services;
